@@ -1,43 +1,27 @@
-# Bambu Poop Conveyor for ESP32 
-:arrow_right:	:arrow_right:	:poop: :arrow_right: :arrow_right: :poop: :arrow_right: :arrow_right:
-
-### For more detailed project information visit: https://t0nyz.com/projects/bambuconveyor
-
+# BambuFlag for ESP32
 ## Overview 
 
-The Bambu Poop Conveyor is an application designed to manage the waste output of a Bambu X1 3D printer. It utilizes WiFi and MQTT protocols to monitor the printer's status and control a motor that moves waste material away from the printing area. 
+The BambuFlag is an application designed display a Bambu X1 3D printer status. Using WiFi and MQTT protocols to monitor the printer's status and control a servo that moves some flags.
 
-https://github.com/user-attachments/assets/e5a849d5-8708-4fe7-8b11-288ce03bfcbe
+## List of supplies
+- ESP32 board: https://amzn.eu/d/gnoAfbd
+- Servo https://amzn.eu/d/5UxaUpT
+- Wires: [https://amzn.eu/d/bfbP5ST](https://amzn.eu/d/5hwFUJG)
 
-
-## List of some supplies
-- Breakout board for ESP32: https://amzn.to/4dyjsx0
-- ESP32 board: https://amzn.to/4fBjh5L
-- 12 Volt power supply: https://amzn.to/3AfIm6a
-- Motor Controller: https://amzn.to/3yBPqcM
-- 12V 10RPM Motor: https://amzn.to/3M24VOd
-- Resistors (I use 1k Ohm): https://amzn.to/4cqCi8e
-- Wires: https://amzn.to/46EAtn3
-- LEDs sourced from this kit: https://amzn.to/4dH5Dw7
-  
-
-# Conveyor Makerworld files
-
-- **Conveyor:** https://makerworld.com/en/models/148083#profileId-161573
-- **The custom box I used:** https://makerworld.com/en/models/576315#profileId-496900
-- **Conveyor Extension:** https://makerworld.com/en/models/249714#profileId-359905
-- **Another Motor box housing:** (Alternative option without LEDS but better motor mount): https://makerworld.com/en/models/164413#profileId-180494
-
-
-
+# BambuFlag Makerworld files
+- **BambuFlag:** https://makerworld.com/en/models/594156#profileId-515995
 ## Features
 
 - **WiFi and MQTT Connectivity:** Connects to a local WiFi network and communicates with the printer via MQTT
-- **Motor Control:** Activates a motor to manage the printer's waste output based on the printer's status
+- **Servo Control:** Activates a servo to show printer statuses
 - **Web Server:** Hosts a web server to provide manual control and configuration of the system
 - **Stage Monitoring:** Monitors various stages of the printer to determine when to activate the motor
 
 ## Setup
+Short video about setup https://youtu.be/CrnCKuUL-qE
+
+In the case of having to change the boundaries of the motor they can be changed and saved into the eeprom memory of the chip from the Setting landing page:
+![image](https://github.com/user-attachments/assets/d4d777a2-afcb-419f-bd70-896939426058)
 
 ### WiFi and MQTT Configuration
 
@@ -63,42 +47,13 @@ char serial_number[20] = "your-bambu-printer-serial-number";
 
 ## GPIO Pins
 
-The application uses the following GPIO pins for motor and LED control:
+The application uses the following GPIO pin for the servo:
 
 ```cpp
-const int greenLight = 19;
-const int redLight = 4;
-const int yellowLight = 18;
 
-int motor1Pin1 = 23;
-int motor1Pin2 = 21;
-int enable1Pin = 15;
+int pinServo = 27;
 
 ```
-
-### Motor Control Timings
-
-Configure the motor run time and wait time:
-
-```cpp
-int motorRunTime = 10000; // 10 seconds by default // Honestly I prefer 5000 as the poop doesnt come out fast enough for you to need anymore than that, but 10 seconds is just more exciting
-int motorWaitTime = 5000; // The time to wait to run the motor.
-int delayAfterRun = 120000; // Delay after motor run
-
-```
-
-### PWM Configuration
-
-Set the PWM properties for motor control:
-
-```cpp
-const int freq = 5000;
-const int pwmChannel = 0;
-const int resolution = 8;
-int dutyCycle = 220;
-
-```
-
 
 ## Installation
 
@@ -108,6 +63,8 @@ int dutyCycle = 220;
 4. Upload the code to the ESP32.
 5. Access the web server via the IP address assigned to the ESP32 to configure and control the application.
 
+## Wiring
+Connect servo to ESP32 poles acordingly and the control pin into the GPIO27. Connection from the servo into the board is done using 3 male-female DuPont cables.
 
 ## Usage
 
@@ -116,16 +73,12 @@ int dutyCycle = 220;
 The application hosts a web server to provide manual control and configuration. Access the following URLs for different functionalities:
 
 - **Root URL:** Opens Configuration page (`/`)
-- **Control URL:** Manual motor control page (`/control`)
-- **Config URL:** Configuration page to update settings (`/config`) 
-- **Logs URL:** Log history page (`/logs`)
-- **Manual Run URL:** Opening this URL runs the motor manually (`/run`)
-
-
-
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-For more detailed project information visit: https://t0nyz.com/projects/bambuconveyor
+## Thanks!
+
+Thanks to t0nyz for this repo in wich my code is based on!
+https://t0nyz.com/projects/bambuconveyor
